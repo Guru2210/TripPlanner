@@ -1,0 +1,182 @@
+/* Custom CSS for Trip Planner Streamlit App */
+
+/* Main container styling */
+.main {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    padding: 2rem;
+}
+
+/* Card styling */
+.stCard {
+    background: white;
+    border-radius: 15px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin-bottom: 1rem;
+}
+
+/* Header styling */
+h1 {
+    color: #ffffff;
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 2rem;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+h2 {
+    color: #667eea;
+    font-weight: 600;
+    margin-top: 1.5rem;
+}
+
+h3 {
+    color: #764ba2;
+    font-weight: 500;
+}
+
+/* Button styling */
+.stButton > button {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border: none;
+    border-radius: 25px;
+    padding: 0.75rem 2rem;
+    font-weight: 600;
+    font-size: 1.1rem;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.stButton > button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Input field styling */
+.stTextInput > div > div > input,
+.stNumberInput > div > div > input,
+.stSelectbox > div > div > select {
+    border-radius: 10px;
+    border: 2px solid #e0e0e0;
+    padding: 0.75rem;
+    transition: border-color 0.3s ease;
+}
+
+.stTextInput > div > div > input:focus,
+.stNumberInput > div > div > input:focus,
+.stSelectbox > div > div > select:focus {
+    border-color: #667eea;
+    box-shadow: 0 0 0 2px rgba(102, 126, 234, 0.2);
+}
+
+/* Sidebar styling */
+.css-1d391kg {
+    background: linear-gradient(180deg, #667eea 0%, #764ba2 100%);
+}
+
+.sidebar .sidebar-content {
+    background: white;
+    border-radius: 15px;
+    padding: 1rem;
+}
+
+/* Progress bar */
+.stProgress > div > div > div > div {
+    background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+}
+
+/* Success message */
+.stSuccess {
+    background-color: #d4edda;
+    border-left: 4px solid #28a745;
+    border-radius: 8px;
+    padding: 1rem;
+}
+
+/* Info message */
+.stInfo {
+    background-color: #d1ecf1;
+    border-left: 4px solid #17a2b8;
+    border-radius: 8px;
+    padding: 1rem;
+}
+
+/* Warning message */
+.stWarning {
+    background-color: #fff3cd;
+    border-left: 4px solid #ffc107;
+    border-radius: 8px;
+    padding: 1rem;
+}
+
+/* Day card styling */
+.day-card {
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Activity card */
+.activity-card {
+    background: white;
+    border-left: 4px solid #667eea;
+    border-radius: 8px;
+    padding: 1rem;
+    margin: 0.75rem 0;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+/* Cost badge */
+.cost-badge {
+    background: #667eea;
+    color: white;
+    padding: 0.25rem 0.75rem;
+    border-radius: 15px;
+    font-weight: 600;
+    display: inline-block;
+    margin-left: 0.5rem;
+}
+
+/* Metric styling */
+.stMetric {
+    background: white;
+    border-radius: 10px;
+    padding: 1rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+/* Spinner */
+.stSpinner > div {
+    border-top-color: #667eea !important;
+}
+
+/* Multiselect */
+.stMultiSelect > div > div {
+    border-radius: 10px;
+}
+
+/* Expander */
+.streamlit-expanderHeader {
+    background-color: #f5f7fa;
+    border-radius: 8px;
+    font-weight: 600;
+}
+
+/* Animation for cards */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.animated-card {
+    animation: fadeIn 0.5s ease-out;
+}

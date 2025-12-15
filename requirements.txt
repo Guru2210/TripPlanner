@@ -1,0 +1,24 @@
+# Core Dependencies - Install these first
+fastapi==0.109.0
+uvicorn[standard]==0.27.0
+python-dotenv==1.0.0
+requests==2.31.0
+geopy==2.4.1
+streamlit==1.40.1
+python-multipart==0.0.6
+
+# Pydantic - Must be compatible version
+pydantic==2.6.4
+pydantic-settings==2.2.1
+
+# Google AI
+google-generativeai==0.8.3
+
+# LangChain - Install after pydantic
+langchain-core==0.3.15
+langchain-community==0.3.5
+langchain-google-genai==2.0.4
+langchain==0.3.7
+
+# LangGraph - Install last
+langgraph==0.2.45

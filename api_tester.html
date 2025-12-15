@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trip Planner API Tester</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 2rem;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 3rem;
+            animation: fadeInDown 0.6s ease-out;
+        }
+
+        .header h1 {
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.95;
+        }
+
+        .api-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .api-card {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            animation: fadeInUp 0.6s ease-out;
+        }
+
+        .api-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 50px rgba(0,0,0,0.15);
+        }
+
+        .api-card h2 {
+            color: #667eea;
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .method-badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        .method-get {
+            background: #10b981;
+            color: white;
+        }
+
+        .method-post {
+            background: #3b82f6;
+            color: white;
+        }
+
+        .endpoint {
+            background: #f3f4f6;
+            padding: 0.75rem;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            margin: 1rem 0;
+            word-break: break-all;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: #4b5563;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid #e5e7eb;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .response-section {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            animation: fadeInUp 0.6s ease-out 0.2s backwards;
+        }
+
+        .response-section h2 {
+            color: #667eea;
+            margin-bottom: 1rem;
+            font-size: 1.8rem;
+        }
+
+        .response-box {
+            background: #1f2937;
+            color: #10b981;
+            padding: 1.5rem;
+            border-radius: 10px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            max-height: 500px;
+            overflow-y: auto;
+            white-space: pre-wrap;
+            word-break: break-word;
+        }
+
+        .response-box::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .response-box::-webkit-scrollbar-track {
+            background: #374151;
+            border-radius: 10px;
+        }
+
+        .response-box::-webkit-scrollbar-thumb {
+            background: #667eea;
+            border-radius: 10px;
+        }
+
+        .status-indicator {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .status-success {
+            background: #d1fae5;
+            color: #065f46;
+        }
+
+        .status-error {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        .status-loading {
+            background: #dbeafe;
+            color: #1e40af;
+        }
+
+        .loading-spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255,255,255,0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .interests-input {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            margin-top: 0.5rem;
+        }
+
+        .interest-tag {
+            background: #667eea;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .interest-tag button {
+            background: none;
+            border: none;
+            color: white;
+            cursor: pointer;
+            font-size: 1.2rem;
+            line-height: 1;
+        }
+
+        .add-interest {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .add-interest input {
+            flex: 1;
+        }
+
+        .add-interest button {
+            padding: 0.75rem 1.5rem;
+            background: #10b981;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🌍 Trip Planner API Tester</h1>
+            <p>Test all your backend endpoints with a beautiful interface</p>
+        </div>
+
+        <div class="api-grid">
+            <!-- Health Check -->
+            <div class="api-card">
+                <h2>
+                    <span class="method-badge method-get">GET</span>
+                    Health Check
+                </h2>
+                <div class="endpoint">/health</div>
+                <p style="margin: 1rem 0; color: #6b7280;">Check if the API is running</p>
+                <button class="btn" onclick="testHealth()">
+                    <span id="health-btn-text">Test Health</span>
+                </button>
+            </div>
+
+            <!-- Root Endpoint -->
+            <div class="api-card">
+                <h2>
+                    <span class="method-badge method-get">GET</span>
+                    Root Info
+                </h2>
+                <div class="endpoint">/</div>
+                <p style="margin: 1rem 0; color: #6b7280;">Get API information</p>
+                <button class="btn" onclick="testRoot()">
+                    <span id="root-btn-text">Test Root</span>
+                </button>
+            </div>
+
+            <!-- Plan Trip -->
+            <div class="api-card" style="grid-column: 1 / -1;">
+                <h2>
+                    <span class="method-badge method-post">POST</span>
+                    Plan Trip
+                </h2>
+                <div class="endpoint">/plan</div>
+                <p style="margin: 1rem 0; color: #6b7280;">Create a complete trip itinerary</p>
+                
+                <form id="plan-form" onsubmit="testPlan(event)">
+                    <div class="form-group">
+                        <label>Destination</label>
+                        <input type="text" id="destination" placeholder="e.g., Paris, Tokyo, New York" required>
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                        <div class="form-group">
+                            <label>Number of Days</label>
+                            <input type="number" id="num_days" min="1" max="30" value="3" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Budget (USD)</label>
+                            <input type="number" id="budget" min="100" step="100" value="1500" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Travel Style</label>
+                        <select id="travel_style" required>
+                            <option value="budget">Budget</option>
+                            <option value="mid-range" selected>Mid-Range</option>
+                            <option value="luxury">Luxury</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Interests</label>
+                        <div class="interests-input" id="interests-list"></div>
+                        <div class="add-interest">
+                            <input type="text" id="interest-input" placeholder="Add an interest (e.g., museums, food, beaches)">
+                            <button type="button" onclick="addInterest()">Add</button>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn" id="plan-btn">
+                        <span id="plan-btn-text">Plan My Trip</span>
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Response Section -->
+        <div class="response-section">
+            <h2>📋 API Response</h2>
+            <div id="status-indicator"></div>
+            <div class="response-box" id="response">
+{
+  "message": "Click any button above to test the API",
+  "status": "ready"
+}
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const API_BASE = 'http://localhost:8000';
+        let interests = ['culture', 'food'];
+
+        // Initialize interests
+        function initInterests() {
+            renderInterests();
+        }
+
+        function renderInterests() {
+            const list = document.getElementById('interests-list');
+            list.innerHTML = interests.map(interest => `
+                <div class="interest-tag">
+                    ${interest}
+                    <button onclick="removeInterest('${interest}')">×</button>
+                </div>
+            `).join('');
+        }
+
+        function addInterest() {
+            const input = document.getElementById('interest-input');
+            const value = input.value.trim().toLowerCase();
+            if (value && !interests.includes(value)) {
+                interests.push(value);
+                renderInterests();
+                input.value = '';
+            }
+        }
+
+        function removeInterest(interest) {
+            interests = interests.filter(i => i !== interest);
+            renderInterests();
+        }
+
+        function updateResponse(data, status = 'success') {
+            const responseBox = document.getElementById('response');
+            const statusIndicator = document.getElementById('status-indicator');
+            
+            responseBox.textContent = JSON.stringify(data, null, 2);
+            
+            if (status === 'success') {
+                statusIndicator.innerHTML = '<span class="status-indicator status-success">✓ Success</span>';
+            } else if (status === 'error') {
+                statusIndicator.innerHTML = '<span class="status-indicator status-error">✗ Error</span>';
+            } else if (status === 'loading') {
+                statusIndicator.innerHTML = '<span class="status-indicator status-loading"><span class="loading-spinner"></span> Loading...</span>';
+            }
+        }
+
+        async function testHealth() {
+            const btn = document.getElementById('health-btn-text');
+            btn.innerHTML = '<span class="loading-spinner"></span> Testing...';
+            updateResponse({ status: 'loading' }, 'loading');
+
+            try {
+                const response = await fetch(`${API_BASE}/health`);
+                const data = await response.json();
+                updateResponse(data, 'success');
+            } catch (error) {
+                updateResponse({ error: error.message }, 'error');
+            } finally {
+                btn.textContent = 'Test Health';
+            }
+        }
+
+        async function testRoot() {
+            const btn = document.getElementById('root-btn-text');
+            btn.innerHTML = '<span class="loading-spinner"></span> Testing...';
+            updateResponse({ status: 'loading' }, 'loading');
+
+            try {
+                const response = await fetch(`${API_BASE}/`);
+                const data = await response.json();
+                updateResponse(data, 'success');
+            } catch (error) {
+                updateResponse({ error: error.message }, 'error');
+            } finally {
+                btn.textContent = 'Test Root';
+            }
+        }
+
+        async function testPlan(event) {
+            event.preventDefault();
+            
+            const btn = document.getElementById('plan-btn-text');
+            const planBtn = document.getElementById('plan-btn');
+            planBtn.disabled = true;
+            btn.innerHTML = '<span class="loading-spinner"></span> Planning your trip...';
+            updateResponse({ status: 'loading', message: 'This may take 30-60 seconds...' }, 'loading');
+
+            const requestData = {
+                destination: document.getElementById('destination').value,
+                num_days: parseInt(document.getElementById('num_days').value),
+                budget_usd: parseFloat(document.getElementById('budget').value),
+                travel_style: document.getElementById('travel_style').value,
+                interests: interests
+            };
+
+            try {
+                const response = await fetch(`${API_BASE}/plan`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(requestData)
+                });
+
+                const data = await response.json();
+                
+                if (response.ok) {
+                    updateResponse(data, 'success');
+                } else {
+                    updateResponse(data, 'error');
+                }
+            } catch (error) {
+                updateResponse({ error: error.message }, 'error');
+            } finally {
+                btn.textContent = 'Plan My Trip';
+                planBtn.disabled = false;
+            }
+        }
+
+        // Allow adding interests with Enter key
+        document.getElementById('interest-input').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                addInterest();
+            }
+        });
+
+        // Initialize
+        initInterests();
+    </script>
+</body>
+</html>
