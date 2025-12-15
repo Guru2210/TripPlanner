@@ -10,9 +10,9 @@ class Settings(BaseSettings):
     """Application settings"""
     
     # API Keys
-    GOOGLE_API_KEY: str = os.getenv("GOOGLE_API_KEY","AIzaSyB5X7TDJmMTq_T25dnsUGb6s-xao2ufmkY")
-    OPENTRIPMAP_API_KEY: str = os.getenv("OPENTRIPMAP_API_KEY", "5ae2e3f221c38a28845f05b667cb80d35f5760ae35c837141e30b083")
-    GEOAPIFY_API_KEY: str = os.getenv("GEOAPIFY_API_KEY", "1cc5dc2ea831492d9f9f952fb38ef927")
+    GOOGLE_API_KEY: str = os.getenv("GOOGLE_API_KEY","")
+    OPENTRIPMAP_API_KEY: str = os.getenv("OPENTRIPMAP_API_KEY", "")
+    GEOAPIFY_API_KEY: str = os.getenv("GEOAPIFY_API_KEY", "")
     
     # LLM Settings
     LLM_MODEL: str = "gemini-2.5-flash"  # Stable model with good performance
