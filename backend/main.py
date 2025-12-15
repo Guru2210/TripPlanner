@@ -1,7 +1,4 @@
-"""
-FastAPI Backend for Trip Planner
-Production-ready REST API with streaming support
-"""
+
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import StreamingResponse
